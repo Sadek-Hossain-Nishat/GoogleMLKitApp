@@ -14,6 +14,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.googlemlkitapp.R;
+import com.example.googlemlkitapp.barcodescanning.BarcodeScannerMLActivity;
+import com.example.googlemlkitapp.facedetection.FaceDetectionActivity;
+import com.example.googlemlkitapp.textrecognizing.TextRecognizerActivity;
+import com.example.googlemlkitapp.userauthentication.custommenthod.ItemListener;
 import com.example.googlemlkitapp.userauthentication.mladapter.MLServicesAdapter;
 import com.example.googlemlkitapp.userauthentication.mlservice.MLService;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,7 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ItemListener {
     private FirebaseAuth mAuth;
     private RecyclerView recyclerView;
     private int[] servicelogoids=new int[]{
@@ -67,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         layoutManager=new LinearLayoutManager(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        mlServicesAdapter=new MLServicesAdapter(this, (ArrayList<MLService>) mlServices);
+        mlServicesAdapter=new MLServicesAdapter(this, (ArrayList<MLService>) mlServices,this);
         recyclerView.setAdapter(mlServicesAdapter);
 
 
@@ -101,5 +105,22 @@ public class MainActivity extends AppCompatActivity {
         mAuth.signOut();
         startActivity(new Intent(this,LoginActivity.class));
         finish();
+    }
+
+    @Override
+    public void clickItem(int position) {
+        switch (position){
+            case 0:
+                startActivity(new Intent(this, BarcodeScannerMLActivity.class));
+                break;
+            case 1:
+                startActivity(new Intent(this, FaceDetectionActivity.class));
+                break;
+            case 2:
+                startActivity(new Intent(this, TextRecognizerActivity.class));
+                break;
+
+        }
+
     }
 }

@@ -19,12 +19,16 @@ import java.util.ArrayList;
 public class MLServicesAdapter extends RecyclerView.Adapter<MLServicesAdapter.MLServicesViewHolder> {
     private Context context;
     private ArrayList<MLService> mlServices;
+    private ItemListener itemListener;
 
 
-    public MLServicesAdapter(Context context, ArrayList<MLService> mlServices) {
+    public MLServicesAdapter(Context context, ArrayList<MLService> mlServices, ItemListener itemListener) {
         this.context = context;
         this.mlServices = mlServices;
+        this.itemListener = itemListener;
     }
+
+
 
 
 
@@ -51,7 +55,7 @@ public class MLServicesAdapter extends RecyclerView.Adapter<MLServicesAdapter.ML
         return mlServices.size();
     }
 
-    public class MLServicesViewHolder extends RecyclerView.ViewHolder implements ItemListener {
+    public class MLServicesViewHolder extends RecyclerView.ViewHolder  {
         ImageView servicelogo;
         TextView servicetitle;
         public MLServicesViewHolder(@NonNull View itemView) {
@@ -61,15 +65,13 @@ public class MLServicesAdapter extends RecyclerView.Adapter<MLServicesAdapter.ML
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    clickItem(getAdapterPosition());
+                    itemListener.clickItem(getAdapterPosition());
+
                 }
             });
 
         }
 
-        @Override
-        public void clickItem(int position) {
 
-        }
     }
 }

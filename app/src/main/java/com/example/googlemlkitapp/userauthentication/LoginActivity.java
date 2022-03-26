@@ -112,6 +112,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (password.length() < 6) {
             loginpasswordET.setError("Password must be at least 6 characters");
 
+
         } else {
             progressBar.setVisibility(View.VISIBLE);
             mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this,new OnCompleteListener<AuthResult>() {
