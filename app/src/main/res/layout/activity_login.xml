@@ -4,8 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".userauthentication.LoginActivity"
-    android:padding="10dp">
+    tools:context=".userauthentication.LoginActivity">
+
+
+    <TextView
+        android:id="@+id/resetpasswordid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Forgotten Password?"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notaccountregister"
+        android:textColor="#03A9F4"
+        android:textSize="20sp"
+        android:textStyle="italic|bold"/>
 
     <EditText
         android:id="@+id/signin_password"
@@ -68,8 +81,6 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 
-
-
     <Button
 
         android:id="@+id/button_signin"
@@ -92,13 +103,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:progressBackgroundTint="@color/teal_700"
-        android:progressTint="@color/teal_700"
+
+        android:progressTint="#128FEE"
+        android:progressBackgroundTint="#128FEE"
+
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/notaccountregister"
+        app:layout_constraintTop_toBottomOf="@+id/resetpasswordid"
         tools:visibility="visible" />
 
     <TextView
@@ -107,17 +121,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/notaccountregister"
+        android:textColor="#0E8CF1"
         android:textSize="20sp"
         android:textStyle="italic|bold"
-        android:textColor="#0E8CF1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_signin" />
-
-
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

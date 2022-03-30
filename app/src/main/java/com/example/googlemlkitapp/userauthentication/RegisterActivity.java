@@ -1,13 +1,10 @@
 package com.example.googlemlkitapp.userauthentication;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,6 +14,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import com.example.googlemlkitapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,12 +25,18 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
+
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String TAG = "register";
     private EditText userEmailET,userPasswordET,userRetypePasswordET;
     private TextView haveaccountSignin;
     private Button registerButton;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
+    FirebaseUser currentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +65,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         registerButton=findViewById(R.id.button_register);
         progressBar=findViewById(R.id.progressBar);
+        Log.i(TAG, "onCreate: ");
 
         mAuth=FirebaseAuth.getInstance();
+
 
 
 
@@ -76,19 +85,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 
 
-    }
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-
-        FirebaseUser currentUser=mAuth.getCurrentUser();
-        if (currentUser!=null){
-            startActivity(new Intent(this,MainActivity.class));
-            finish();
-        }
 
 
 
@@ -96,10 +93,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-
-
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
+
         switch (v.getId()){
             case R.id.haveaccountsignin:
                 startActivity(new Intent(this,LoginActivity.class));
@@ -111,7 +108,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         }
 
+
+
+
+
+
+
     }
+
+
 
     private void createAccount() {
 
@@ -146,6 +151,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                 }else {
                     progressBar.setVisibility(View.VISIBLE);
+
                     mAuth.createUserWithEmailAndPassword(email,password)
                             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -155,28 +161,50 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                     if (task.isSuccessful()){
                                         progressBar.setVisibility(View.GONE);
                                         // Sign in success, update UI with the signed-in user's information
-                                        Toast.makeText(RegisterActivity.this, "You are Successfully Registered", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
-                                        finish();
+
+                                        FirebaseUser user = mAuth.getCurrentUser();
+
+                                        if (user!=null){
+
+                                            user.sendEmailVerification()
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()) {
+                                                                Toast.makeText(RegisterActivity.this, "You are Successfully Registered", Toast.LENGTH_SHORT).show();
+                                                                startActivity(new Intent(RegisterActivity.this,VerificationActivity.class));
+                                                                finish();
+                                                            }
+                                                            else {
+                                                                progressBar.setVisibility(View.GONE);
+                                                                Toast.makeText(RegisterActivity.this, ""+ Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+
+                                                            }
+                                                        }
+                                                    });
+
+
+                                        }
+
+
+
+
+
+
+
 
                                     }else {
                                         progressBar.setVisibility(View.GONE);
-                                        Toast.makeText(RegisterActivity.this, ""+task.getException(), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(RegisterActivity.this, ""+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
 
                                     }
 
 
 
 
-                                    
+
                                 }
                             });
-
-
-
-
-
-
 
 
                 }
@@ -189,4 +217,22 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

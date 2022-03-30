@@ -12,14 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoogleMLKitApp">
         <activity
-            android:name=".userauthentication.LoginActivity"
+            android:name=".userauthentication.RegisterActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:exported="false" >
 
         </activity>
         <activity
-            android:name=".userauthentication.RegisterActivity"
+            android:name=".userauthentication.LoginActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:exported="true" >

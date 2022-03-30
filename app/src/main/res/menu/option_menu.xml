@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/logoutid"
+        android:icon="@drawable/ic_signouticon"
+        android:title="Logout"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/changepasswordid"
+        android:icon="@drawable/ic_password"
+        android:title="Change Password"
+        app:showAsAction="never"/>
+
+
+    <item
+        android:id="@+id/deleteaccountdid"
+        android:icon="@drawable/ic_delete"
+        android:title="Delete Account"
+        app:showAsAction="never"/>
+
+
+
+</menu>

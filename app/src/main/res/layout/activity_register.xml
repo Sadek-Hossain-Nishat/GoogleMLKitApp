@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
     tools:context=".userauthentication.RegisterActivity">
+
 
     <EditText
         android:id="@+id/profile_password"
@@ -16,6 +16,7 @@
         android:ems="10"
         android:hint="Enter your Password"
         android:inputType="textPassword"
+        android:textCursorDrawable="@drawable/register_cursor_style"
 
         android:paddingLeft="20dp"
         android:textColor="@color/white"
@@ -56,6 +57,7 @@
         android:background="@drawable/background_textfield_register"
         android:ems="10"
         android:foregroundTint="@color/white"
+        android:textCursorDrawable="@drawable/register_cursor_style"
         android:hint="Enter your Email"
         android:inputType="textEmailAddress"
         android:paddingLeft="20dp"
@@ -77,6 +79,7 @@
         android:ems="10"
         android:hint="Retype Password"
         android:inputType="textPassword"
+        android:textCursorDrawable="@drawable/register_cursor_style"
 
         android:paddingLeft="20dp"
         android:textColor="@color/white"
@@ -129,6 +132,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_register" />
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
