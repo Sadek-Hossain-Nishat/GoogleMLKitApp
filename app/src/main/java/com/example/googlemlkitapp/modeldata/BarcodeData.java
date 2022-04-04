@@ -4,15 +4,10 @@ public class BarcodeData {
     private String title;
     private String content;
     private String rawvalue;
-    private String valuetype;
+    private int valuetype;
 
 
-    public BarcodeData(String title, String content, String rawvalue, String valuetype) {
-        this.title = title;
-        this.content = content;
-        this.rawvalue = rawvalue;
-        this.valuetype = valuetype;
-    }
+
 
 
 
@@ -41,11 +36,11 @@ public class BarcodeData {
         this.rawvalue = rawvalue;
     }
 
-    public String getValuetype() {
+    public int getValuetype() {
         return valuetype;
     }
 
-    public void setValuetype(String valuetype) {
+    public void setValuetype(int valuetype) {
         this.valuetype = valuetype;
     }
 
