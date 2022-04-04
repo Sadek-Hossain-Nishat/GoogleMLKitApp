@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.DashBoardFragment"
+    android:orientation="vertical"
+    android:padding="10dp">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dashboard"
+                android:textSize="25sp"
+                android:textStyle="bold|italic"
+                android:textColor="#CE0AEF"/>
+
+            <LinearLayout
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profileimageid"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:src="@drawable/ic_uploadimage"
+
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"/>
+
+
+                <ImageView
+                    android:id="@+id/editoptionid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_edit"
+                    android:tooltipText="Edit Profile Image"/>
+
+
+
+
+
+
+            </LinearLayout>
+
+            <TextView
+
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Upload a image from gallery"
+
+                android:textStyle="italic|bold"
+                android:textSize="20sp"
+                android:textColor="#B53FA5"
+                />
+
+
+
+            <TextView
+                android:id="@+id/profilenamedashboardeid"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textStyle="italic|bold"
+                android:textSize="20sp"
+                android:textColor="#3F51B5"
+                />
+
+            <TextView
+                android:id="@+id/profileemaildashboardid"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textStyle="italic|bold"
+                android:textSize="20sp"
+                android:textColor="#3F51B5"
+                />
+
+        </LinearLayout>
+
+
+
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+</LinearLayout>
