@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
 
             android:background="@color/purple_500"
-            android:text="Scab Qr or Bar Code"
+            android:text="Scan Qr or Bar Code"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="20sp"

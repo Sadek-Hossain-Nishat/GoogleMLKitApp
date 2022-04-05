@@ -5,8 +5,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,17 +16,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.googlemlkitapp.R;
-import com.example.googlemlkitapp.customadapter.BarcodeHistoryAdapter;
-import com.example.googlemlkitapp.modeldata.BarcodeData;
 import com.example.googlemlkitapp.websearch.WebSearchActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -36,9 +35,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.google.mlkit.vision.barcode.common.Barcode;
 
 import java.util.ArrayList;
@@ -55,6 +51,11 @@ public class IntermediumBarcodeActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
     private FirebaseFirestore firestore;
     private Button popupBtn;
+    private String rawvalueBarcode ="";
+    String titleBarcode="";
+    String contentBarcode="";
+    int valuetypeBarcode=0;
+    String documentrefpath="";
 
 
     @Override
@@ -87,6 +88,39 @@ public class IntermediumBarcodeActivity extends AppCompatActivity {
                     m.setOptionalIconsVisible(true);
                 }
 
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.id_share:
+                                sharebarResult();
+                                break;
+                            case R.id.id_copy:
+                                copybarResult();
+                                break;
+                            case R.id.id_addtofavourite:
+                                if (item.getTitle().equals("Add to Favourite")){
+                                    item.setTitle("Remove Favourite");
+                                    item.setIcon(R.drawable.ic_favourite);
+                                    popupBtn.setVisibility(View.GONE);
+                                    addtoFavouritebaraResult();
+                                }
+                                else {
+                                    item.setTitle("Add to Favourite");
+                                    item.setIcon(R.drawable.ic_addtofavourite);
+
+                                }
+
+
+                                break;
+                            case R.id.id_deletebarresult:
+                                deletebarResult();
+                                break;
+                        }
+                        return false;
+                    }
+                });
+
                 popup.show();
 
 
@@ -111,10 +145,11 @@ public class IntermediumBarcodeActivity extends AppCompatActivity {
             if (i.getStringExtra("uniqid").equals("barcodeml")) {
 
 
-                String titleBarcode = i.getStringExtra("title");
-                String contentBarcode = i.getStringExtra("content");
-                String rawvalueBarcode = i.getStringExtra("rawvalue");
-                int valuetypeBarcode = i.getIntExtra("valuetype", 0);
+                titleBarcode = i.getStringExtra("title");
+                contentBarcode = i.getStringExtra("content");
+                rawvalueBarcode = i.getStringExtra("rawvalue");
+
+                valuetypeBarcode = i.getIntExtra("valuetype", 0);
                 ArrayList<String> rawvaluesbeforescanning = new ArrayList<>();
 
                 firestore.collection("barcodescanning/" + currentUser.getUid() + "/barcodedata")
@@ -158,6 +193,134 @@ public class IntermediumBarcodeActivity extends AppCompatActivity {
                 startActivity(new Intent(IntermediumBarcodeActivity.this, BarcodeScannerMLActivity.class));
             }
         });
+
+
+    }
+
+    private void deletebarResult() {
+
+
+        if (rawvalueBarcode != null) {
+
+
+            Map<String, Object> barcodeData = new HashMap<>();
+            barcodeData.put("title", titleBarcode);
+            barcodeData.put("content", contentBarcode);
+            barcodeData.put("rawvalue", rawvalueBarcode);
+            barcodeData.put("valuetype", valuetypeBarcode);
+
+
+            firestore.collection("barcodescanning/" + currentUser.getUid() + "/barcodedata").document(documentrefpath).delete()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(IntermediumBarcodeActivity.this, "Data has been removed", Toast.LENGTH_SHORT).show();
+                            barcodeResulttitle.setVisibility(View.GONE);
+                            barcodeResultcontent.setVisibility(View.GONE);
+                            actionBtn.setVisibility(View.GONE);
+                            popupBtn.setVisibility(View.GONE);
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+    private void addtoFavouritebaraResult() {
+
+
+
+        if (rawvalueBarcode != null) {
+
+
+            Map<String, Object> barcodeData = new HashMap<>();
+            barcodeData.put("title", titleBarcode);
+            barcodeData.put("content", contentBarcode);
+            barcodeData.put("rawvalue", rawvalueBarcode);
+            barcodeData.put("valuetype", valuetypeBarcode);
+
+
+            firestore.collection("favouritebarcode/" + currentUser.getUid() + "/favouritebarcodedata").add(barcodeData)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Log.i(TAG, "onSuccess: saved");
+                            Toast.makeText(IntermediumBarcodeActivity.this, "Added to Favourite", Toast.LENGTH_SHORT).show();
+
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.i(TAG, "onFailure: failed");
+
+                        }
+                    });
+
+
+        }
+
+
+
+
+
+
+
+
+
+    }
+
+    private void copybarResult() {
+
+        ClipboardManager clipboardManager=(ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("copy text", rawvalueBarcode);
+        clipboardManager.setPrimaryClip(clip);
+        Toast.makeText(this, "Copied", Toast.LENGTH_SHORT).show();
+
+
+
+    }
+
+    private void sharebarResult() {
+
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/html");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "share this");
+        intent.putExtra(Intent.EXTRA_TEXT, rawvalueBarcode);
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(Intent.createChooser(intent, "Share"));
+        } else {
+            Toast.makeText(this, "No apps are available", Toast.LENGTH_SHORT).show();
+        }
+
+
+
 
 
     }
@@ -228,6 +391,7 @@ public class IntermediumBarcodeActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             Log.i(TAG, "onSuccess: saved");
+                            documentrefpath=documentReference.getId();
 
                         }
                     })

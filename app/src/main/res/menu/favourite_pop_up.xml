@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+
     <item
-        android:id="@+id/id_openhistoryitem"
+        android:id="@+id/id_openfavouriteitem"
         android:title="Open"
         android:icon="@drawable/ic_openicon"/>
-
-
 
     <item
         android:id="@+id/id_share"
@@ -19,15 +18,8 @@
         android:icon="@drawable/ic_copy"/>
 
     <item
-        android:id="@+id/id_addtofavourite"
-        android:title="Add to Favourite"
-        android:icon="@drawable/ic_addtofavourite"/>
-
-    <item
-        android:id="@+id/id_deletebarresult"
-        android:title="Delete"
-        android:icon="@drawable/ic_delete"/>
-
-
+        android:id="@+id/id_favouriteitem"
+        android:title="Remove Favourite"
+        android:icon="@drawable/ic_favourite"/>
 
 </menu>

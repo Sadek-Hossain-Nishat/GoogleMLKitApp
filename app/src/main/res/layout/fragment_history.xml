@@ -10,7 +10,7 @@
 
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/id_ttlehistoryfragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -28,7 +28,7 @@
         android:layout_marginTop="10dp"
         android:text="Clear History"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/id_ttlehistoryfragment"
         android:textSize="15sp"
         android:textStyle="italic"
         android:textColor="@color/white"
@@ -45,4 +45,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_clearhistorybarcodedata" />
+
+    <TextView
+        android:id="@+id/id_showemptylist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No History"
+        android:textSize="25sp"
+        android:textColor="#290707"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+
+        android:id="@+id/id_opensearchactivity"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="112dp"
+        android:src="@drawable/ic_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_ttlehistoryfragment"
+        android:tooltipText="Search"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

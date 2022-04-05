@@ -1,14 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.FavouriteFragment">
-
-    <!-- TODO: Update blank fragment layout -->
+    tools:context=".fragments.FavouriteFragment"
+    android:orientation="vertical">
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Favourite Fragment" />
+        android:id="@+id/id_titlefavouritefragment"
 
-</FrameLayout>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Favourite"
+        android:textSize="25sp"
+        android:textStyle="bold|italic"
+        android:textColor="#EA0404"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/id_clearallfavourite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remove Favourite List"
+            android:layout_gravity="center_horizontal"
+            android:background="#FF5722"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            android:textStyle="italic"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_search"
+            android:id="@+id/id_opensearchactivity"
+            android:layout_marginStart="30dp"/>
+
+    </LinearLayout>
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_recyclerviewfavourite"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_showemptyfavouritelist"
+        android:text="No Favourite"
+        android:textSize="25sp"
+        android:textColor="#2E0909"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+
+
+</LinearLayout>
