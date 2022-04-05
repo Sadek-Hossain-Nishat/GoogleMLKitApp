@@ -232,6 +232,9 @@ public class BarcodeScannerMLActivity extends AppCompatActivity {
 
                         Intent i = new Intent(BarcodeScannerMLActivity.this, IntermediumBarcodeActivity.class);
 
+
+                        i.putExtra("uniqid","barcodeml");
+
                         i.putExtra("title", "Link");
                         i.putExtra("content", barcode.getUrl().getUrl().toString());
                         i.putExtra("rawvalue", barcode.getRawValue().toString());
@@ -245,6 +248,7 @@ public class BarcodeScannerMLActivity extends AppCompatActivity {
                         processCameraProvider.unbindAll();
 
                         i = new Intent(BarcodeScannerMLActivity.this, IntermediumBarcodeActivity.class);
+                        i.putExtra("uniqid","barcodeml");
                         i.putExtra("title", "Email");
                         i.putExtra("content", barcode.getEmail().getAddress());
                         i.putExtra("rawvalue", barcode.getRawValue().toString());
@@ -258,6 +262,7 @@ public class BarcodeScannerMLActivity extends AppCompatActivity {
 
 
                         i = new Intent(BarcodeScannerMLActivity.this, IntermediumBarcodeActivity.class);
+                        i.putExtra("uniqid","barcodeml");
                         i.putExtra("title", "Text");
                         i.putExtra("content", barcode.getRawValue().toString());
                         i.putExtra("rawvalue", barcode.getRawValue().toString());
@@ -273,6 +278,7 @@ public class BarcodeScannerMLActivity extends AppCompatActivity {
 
                         processCameraProvider.unbindAll();
                         i = new Intent(BarcodeScannerMLActivity.this, IntermediumBarcodeActivity.class);
+                        i.putExtra("uniqid","barcodeml");
                         i.putExtra("title", "Unknown");
                         i.putExtra("content", barcode.getRawValue().toString());
                         i.putExtra("rawvalue", barcode.getRawValue().toString());

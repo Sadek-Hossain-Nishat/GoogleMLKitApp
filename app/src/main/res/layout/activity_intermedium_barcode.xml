@@ -1,65 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    tools:context=".barcodescanning.IntermediumBarcodeActivity">
+    tools:context=".barcodescanning.IntermediumBarcodeActivity"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    >
 
-    <TextView
-        android:id="@+id/id_barcoderesulttitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
 
-        android:textColor="@color/teal_700"
-        android:textSize="25sp"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/id_scanbarcodebtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@color/purple_500"
-        android:text="Scab Qr or Bar Code"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_buttonaction" />
 
-    <TextView
-        android:id="@+id/id_barcoderesultcontent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textColor="#C200EE"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_barcoderesulttitle" />
+        <TextView
+            android:id="@+id/id_barcoderesulttitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
 
-    <Button
-        android:id="@+id/id_buttonaction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@color/teal_700"
-        android:text="Action"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_barcoderesultcontent"
-        android:visibility="gone"
-        tools:visibility="visible"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:textColor="@color/teal_700"
+            android:textSize="25sp"
+            android:textStyle="italic"
+            />
+
+        <TextView
+            android:id="@+id/id_barcoderesultcontent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="#C200EE"
+            android:textSize="20sp"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="30dp"
+
+           >
+
+            <Button
+
+                android:id="@+id/id_buttonaction"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:background="@color/teal_700"
+                android:text="Action"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="italic"
+                android:visibility="gone"
+
+                tools:visibility="visible" />
+
+            <Button
+
+                android:id="@+id/id_popupbtn"
+                android:background="#2196F3"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="italic"
+                android:layout_marginStart="10dp"
+
+
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+               android:text="More"
+                android:textAllCaps="false"
+                android:visibility="gone"
+                tools:visibility="visible"
+
+
+               />
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/id_scanbarcodebtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:background="@color/purple_500"
+            android:text="Scab Qr or Bar Code"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="italic"
+           />
+
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>

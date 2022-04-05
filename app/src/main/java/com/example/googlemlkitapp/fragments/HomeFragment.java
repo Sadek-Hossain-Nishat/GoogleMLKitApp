@@ -16,7 +16,7 @@ import com.example.googlemlkitapp.R;
 import com.example.googlemlkitapp.barcodescanning.IntermediumBarcodeActivity;
 import com.example.googlemlkitapp.facedetection.FaceDetectionActivity;
 import com.example.googlemlkitapp.textrecognizing.TextRecognizerActivity;
-import com.example.googlemlkitapp.userauthentication.custommenthod.ItemListener;
+import com.example.googlemlkitapp.customlistener.ItemListener;
 
 import com.example.googlemlkitapp.customadapter.mladapter.MLServicesAdapter;
 import com.example.googlemlkitapp.modeldata.mlservice.MLService;
@@ -96,7 +96,9 @@ public class HomeFragment extends Fragment implements ItemListener {
 
         switch (position) {
             case 0:
-                requireActivity().startActivity(new Intent(requireActivity(), IntermediumBarcodeActivity.class));
+               Intent i= new Intent(requireActivity(), IntermediumBarcodeActivity.class);
+               i.putExtra("uniqid","home");
+                requireActivity().startActivity(i);
                 break;
             case 1:
                 requireActivity().startActivity(new Intent(requireActivity(), FaceDetectionActivity.class));

@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.googlemlkitapp.R;
-import com.example.googlemlkitapp.userauthentication.custommenthod.ItemListener;
+import com.example.googlemlkitapp.customlistener.ItemListener;
 import com.example.googlemlkitapp.modeldata.mlservice.MLService;
 
 import java.util.ArrayList;

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/id_share"
+        android:title="Share"
+        android:icon="@drawable/ic_share"/>
+
+    <item
+        android:id="@+id/id_copy"
+        android:title="Copy"
+        android:icon="@drawable/ic_copy"/>
+
+    <item
+        android:id="@+id/id_addtofavourite"
+        android:title="Add to Favourite"
+        android:icon="@drawable/ic_addtofavourite"/>
+
+    <item
+        android:id="@+id/id_deletebarresult"
+        android:title="Delete"
+        android:icon="@drawable/ic_delete"/>
+
+
+
+</menu>
