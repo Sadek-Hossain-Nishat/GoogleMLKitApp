@@ -52,7 +52,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class HistoryFragment extends Fragment  {
+public class HistoryFragment extends Fragment {
     private static final String TAG = "show";
     private RecyclerView historyitemRecyclerView;
     private RecyclerView.LayoutManager layoutManager;
@@ -62,75 +62,167 @@ public class HistoryFragment extends Fragment  {
     FirebaseAuth firebaseAuth;
     FirebaseUser currentUser;
     FirebaseFirestore firestore;
-    private TextView showemptylist,titleHistoryFragment;
+    private TextView showemptylist, titleHistoryFragment;
     private Button clearhistoryBtn;
     private ImageView searchimage;
+    private String documentpathRef="";
 
 
-
-    private HistoryitemPopUpListener historyitemPopUpListener=new HistoryitemPopUpListener() {
+    private HistoryitemPopUpListener historyitemPopUpListener = new HistoryitemPopUpListener() {
         @Override
-        public void actionpopupinHistoryitem(int position,View view) {
+        public void actionpopupinHistoryitem(int position, View view) {
+
+            firestore.collection("favouritebarcode/" + currentUser.getUid() + "/favouritebarcodedata")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                ArrayList<String> rawvalues = new ArrayList<>();
+                                ArrayList<String> documentrefpathlist = new ArrayList<>();
+
+                                for (QueryDocumentSnapshot documnet : task.getResult()) {
+
+                                    rawvalues.add(documnet.getString("rawvalue"));
+                                    documentrefpathlist.add(documnet.getId());
+
+                                    Log.i(TAG, "onComplete: " + documnet.getString("rawvalue"));
 
 
-            PopupMenu popup = new PopupMenu(requireActivity(),view);
-            MenuInflater inflater = popup.getMenuInflater();
-            inflater.inflate(R.menu.popup_menu, popup.getMenu());
-            if (popup.getMenu() instanceof MenuBuilder) {
-                MenuBuilder m = (MenuBuilder) popup.getMenu();
-                //noinspection RestrictedApi
-                m.setOptionalIconsVisible(true);
-            }
+                                }
 
 
-            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    switch (item.getItemId()){
-                        case R.id.id_share:
-                            sharebarResult(position);
-                            break;
-                        case R.id.id_copy:
-                            copybarResult(position);
-                            break;
-                        case R.id.id_addtofavourite:
-                            if (item.getTitle().equals("Add to Favourite")){
-                                item.setTitle("Remove Favourite");
-                                item.setIcon(R.drawable.ic_favourite);
+                                if (rawvalues.contains(barcodeDatalist.get(position).getRawvalue())) {
+                                    documentpathRef = documentrefpathlist.get(rawvalues.indexOf(barcodeDatalist.get(position).getRawvalue()));
+                                    PopupMenu popup = new PopupMenu(requireActivity(), view);
+                                    MenuInflater inflater = popup.getMenuInflater();
+                                    inflater.inflate(R.menu.popup_menu2, popup.getMenu());
 
-                                addtoFavouritebaraResult(position);
+                                    if (popup.getMenu() instanceof MenuBuilder) {
+                                        MenuBuilder m = (MenuBuilder) popup.getMenu();
+                                        //noinspection RestrictedApi
+                                        m.setOptionalIconsVisible(true);
+                                    }
+
+
+                                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                        @Override
+                                        public boolean onMenuItemClick(MenuItem item) {
+                                            switch (item.getItemId()) {
+                                                case R.id.id_share:
+                                                    sharebarResult(position);
+                                                    break;
+                                                case R.id.id_copy:
+                                                    copybarResult(position);
+                                                    break;
+                                                case R.id.id_removefavourite:
+                                                    item.setTitle("Add to Favourite");
+                                                    item.setIcon(R.drawable.ic_addtofavourite);
+
+                                                    removeFavourite();
+                                                    break;
+                                                case R.id.id_deletebarresult:
+                                                    deletebarResult(position);
+                                                    break;
+                                            }
+                                            return false;
+                                        }
+                                    });
+
+                                    popup.show();
+
+
+                                } else {
+
+
+                                    PopupMenu popup = new PopupMenu(requireActivity(), view);
+                                    MenuInflater inflater = popup.getMenuInflater();
+                                    inflater.inflate(R.menu.popup_menu, popup.getMenu());
+                                    if (popup.getMenu() instanceof MenuBuilder) {
+                                        MenuBuilder m = (MenuBuilder) popup.getMenu();
+                                        //noinspection RestrictedApi
+                                        m.setOptionalIconsVisible(true);
+                                    }
+
+
+                                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                        @Override
+                                        public boolean onMenuItemClick(MenuItem item) {
+                                            switch (item.getItemId()) {
+                                                case R.id.id_share:
+                                                    sharebarResult(position);
+                                                    break;
+                                                case R.id.id_copy:
+                                                    copybarResult(position);
+                                                    break;
+                                                case R.id.id_addtofavourite:
+                                                    item.setIcon(R.drawable.ic_favourite);
+                                                    item.setTitle("Remove Favourite");
+
+                                                    addtoFavouritebaraResult(position);
+
+                                                    break;
+                                                case R.id.id_deletebarresult:
+                                                    deletebarResult(position);
+                                                    break;
+                                            }
+                                            return false;
+                                        }
+                                    });
+
+
+                                    popup.show();
+
+
+                                }
+
+
+                            } else {
+
                             }
-                            else {
-                                item.setTitle("Add to Favourite");
-                                item.setIcon(R.drawable.ic_addtofavourite);
-
-                            }
-
-
-                            break;
-                        case R.id.id_deletebarresult:
-                            deletebarResult(position);
-                            break;
-
-                        case R.id.id_openhistoryitem:
-                            openItem(position);
-                    }
-                    return false;
-                }
-            });
-
-
-
-
-
-
-
-            popup.show();
+                        }
+                    });
 
 
 
         }
     };
+
+    private void removeFavourite() {
+
+
+
+
+        firestore.collection("favouritebarcode/" + currentUser.getUid() + "/favouritebarcodedata").document(documentpathRef).delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(requireActivity(), "Favourite Item has been removed", Toast.LENGTH_SHORT).show();
+
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
 
     private void openItem(int position) {
 
@@ -152,13 +244,7 @@ public class HistoryFragment extends Fragment  {
         }
 
 
-
-
-
-
-
     }
-
 
 
     private void goToGmail(String emailAddress) {
@@ -212,17 +298,7 @@ public class HistoryFragment extends Fragment  {
     }
 
 
-
-
-
-
-
-
-
-
-
     private void deletebarResult(int position) {
-
 
 
         Map<String, Object> barcodeData = new HashMap<>();
@@ -237,30 +313,9 @@ public class HistoryFragment extends Fragment  {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
 
-                        firestore.collection("favouritebarcode/" + currentUser.getUid() + "/favouritebarcodedata").document(documentPathlist.get(position)).delete()
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        Toast.makeText(requireActivity(), "Favourite Item has been removed", Toast.LENGTH_SHORT).show();
-
-
-
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-
-                                    }
-                                });
-
-
-
-
 
 
                         Toast.makeText(requireActivity(), "Data has been removed", Toast.LENGTH_SHORT).show();
-
 
 
                         updatingUi();
@@ -276,50 +331,37 @@ public class HistoryFragment extends Fragment  {
                 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     private void updatingUi() {
 
 
-
-        firestore.collection("barcodescanning/"+currentUser.getUid()+"/barcodedata")
+        firestore.collection("barcodescanning/" + currentUser.getUid() + "/barcodedata")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             barcodeDatalist.clear();
                             documentPathlist.clear();
-                            for (QueryDocumentSnapshot documnet:task.getResult()){
+                            for (QueryDocumentSnapshot documnet : task.getResult()) {
 
-                                BarcodeData barcodeData=documnet.toObject(BarcodeData.class);
-                                Log.i(TAG, "onComplete: "+barcodeData.getRawvalue());
+                                BarcodeData barcodeData = documnet.toObject(BarcodeData.class);
+                                Log.i(TAG, "onComplete: " + barcodeData.getRawvalue());
                                 barcodeDatalist.add(barcodeData);
                                 documentPathlist.add(documnet.getId());
 
 
                             }
 
-                            if (barcodeDatalist.isEmpty()){
+                            if (barcodeDatalist.isEmpty()) {
 
                                 showemptylist.setVisibility(View.VISIBLE);
                                 titleHistoryFragment.setVisibility(View.GONE);
                                 clearhistoryBtn.setVisibility(View.GONE);
                                 searchimage.setVisibility(View.GONE);
 
-                            }else {
+                            } else {
 
                                 showemptylist.setVisibility(View.GONE);
                                 titleHistoryFragment.setVisibility(View.VISIBLE);
@@ -327,9 +369,8 @@ public class HistoryFragment extends Fragment  {
                                 searchimage.setVisibility(View.VISIBLE);
 
 
-
-                                barcodeHistoryAdapter=new BarcodeHistoryAdapter(requireActivity(),barcodeDatalist,historyitemPopUpListener);
-                                layoutManager =new LinearLayoutManager(requireActivity());
+                                barcodeHistoryAdapter = new BarcodeHistoryAdapter(requireActivity(), barcodeDatalist, historyitemPopUpListener);
+                                layoutManager = new LinearLayoutManager(requireActivity());
                                 historyitemRecyclerView.setLayoutManager(layoutManager);
                                 historyitemRecyclerView.setAdapter(barcodeHistoryAdapter);
                                 barcodeHistoryAdapter.notifyDataSetChanged();
@@ -338,8 +379,7 @@ public class HistoryFragment extends Fragment  {
                             }
 
 
-                        }
-                        else {
+                        } else {
 
                         }
                     }
@@ -349,8 +389,6 @@ public class HistoryFragment extends Fragment  {
     }
 
     private void addtoFavouritebaraResult(int position) {
-
-
 
 
         Map<String, Object> barcodeData = new HashMap<>();
@@ -379,29 +417,15 @@ public class HistoryFragment extends Fragment  {
                 });
 
 
-
-
-
-
-
-
-
-
-
-
     }
 
     private void copybarResult(int position) {
 
 
-        ClipboardManager clipboardManager=(ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipboardManager clipboardManager = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("copy text", barcodeDatalist.get(position).getRawvalue());
         clipboardManager.setPrimaryClip(clip);
         Toast.makeText(requireActivity(), "Copied", Toast.LENGTH_SHORT).show();
-
-
-
-
 
 
     }
@@ -420,17 +444,12 @@ public class HistoryFragment extends Fragment  {
         }
 
 
-
-
-
-
     }
 
 
     public HistoryFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
@@ -445,37 +464,115 @@ public class HistoryFragment extends Fragment  {
                              Bundle savedInstanceState) {
 
 
+        View view = inflater.inflate(R.layout.fragment_history, container, false);
+        historyitemRecyclerView = view.findViewById(R.id.id_recyclerviewhistory);
+        showemptylist = view.findViewById(R.id.id_showemptylist);
+        titleHistoryFragment = view.findViewById(R.id.id_ttlehistoryfragment);
+        clearhistoryBtn = view.findViewById(R.id.id_clearhistorybarcodedata);
+        searchimage = view.findViewById(R.id.id_opensearchactivity);
 
-        View view= inflater.inflate(R.layout.fragment_history, container, false);
-       historyitemRecyclerView=view.findViewById(R.id.id_recyclerviewhistory);
-       showemptylist=view.findViewById(R.id.id_showemptylist);
-       titleHistoryFragment=view.findViewById(R.id.id_ttlehistoryfragment);
-       clearhistoryBtn=view.findViewById(R.id.id_clearhistorybarcodedata);
-       searchimage=view.findViewById(R.id.id_opensearchactivity);
 
-       searchimage.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               Intent i=new Intent(requireActivity(), SearchActivity.class);
-               i.putExtra("accept","history");
-               startActivity(i);
-           }
-       });
+
+
+        searchimage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(requireActivity(), SearchActivity.class);
+                i.putExtra("accept", "history");
+                startActivity(i);
+            }
+        });
 
 
         // Inflate the layout for this fragment
-        firebaseAuth=FirebaseAuth.getInstance();
-        currentUser=firebaseAuth.getCurrentUser();
-        firestore=FirebaseFirestore.getInstance();
-        barcodeDatalist=new ArrayList<>();
-        documentPathlist=new ArrayList<>();
+        firebaseAuth = FirebaseAuth.getInstance();
+        currentUser = firebaseAuth.getCurrentUser();
+        firestore = FirebaseFirestore.getInstance();
+        barcodeDatalist = new ArrayList<>();
+        documentPathlist = new ArrayList<>();
+
+
+
+        clearhistoryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                for (int i=0;i<documentPathlist.size();i++){
+
+
+
+                    Map<String, Object> barcodeData = new HashMap<>();
+                    barcodeData.put("title", barcodeDatalist.get(i).getTitle());
+                    barcodeData.put("content", barcodeDatalist.get(i).getContent());
+                    barcodeData.put("rawvalue", barcodeDatalist.get(i).getRawvalue());
+                    barcodeData.put("valuetype", barcodeDatalist.get(i).getValuetype());
+
+
+                    firestore.collection("barcodescanning/" + currentUser.getUid() + "/barcodedata").document(documentPathlist.get(i)).delete()
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+
+
+
+
+
+                                    updatingUi();
+
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                }
+                            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                }
+
+                Toast.makeText(requireActivity(), "All records have been deleted", Toast.LENGTH_SHORT).show();
+
+
+
+
+            }
+        });
+
+
+
+
+
+
+
+
+
+
 
         updatingUi();
 
 
         return view;
     }
-
 
 
 }

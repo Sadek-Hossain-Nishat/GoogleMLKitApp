@@ -349,6 +349,70 @@ public class FavouriteFragment extends Fragment {
         firestore = FirebaseFirestore.getInstance();
         barcodeDatalist = new ArrayList<>();
         documentpathlist = new ArrayList<>();
+
+        clearallfavouriteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                for (int i=0;i<documentpathlist.size();i++){
+
+
+
+                    Map<String, Object> barcodeData = new HashMap<>();
+                    barcodeData.put("title", barcodeDatalist.get(i).getTitle());
+                    barcodeData.put("content", barcodeDatalist.get(i).getContent());
+                    barcodeData.put("rawvalue", barcodeDatalist.get(i).getRawvalue());
+                    barcodeData.put("valuetype", barcodeDatalist.get(i).getValuetype());
+
+
+                    firestore.collection("favouritebarcode/" + currentUser.getUid() + "/favouritebarcodedata").document(documentpathlist.get(i)).delete()
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Toast.makeText(requireActivity(), "Favourite Item has been removed", Toast.LENGTH_SHORT).show();
+                                    updatingUi();
+
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                }
+                            });
+
+
+
+
+
+
+
+
+                }
+
+
+                Toast.makeText(requireActivity(), "All Favourite have been deleted", Toast.LENGTH_SHORT).show();
+
+
+
+
+
+
+
+
+
+
+
+            }
+        });
+
+
+
+
+
+
+
         updatingUi();
 
 
