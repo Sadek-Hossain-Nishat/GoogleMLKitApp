@@ -84,12 +84,19 @@
 
         </LinearLayout>
 
+    <ImageView
+        android:layout_marginTop="20dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_qrorbarscanner"/>
+
         <Button
             android:id="@+id/id_scanbarcodebtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="10dp"
 
-            android:background="@color/purple_500"
+            android:background="@drawable/background_scan_btn"
             android:text="Scan Qr or Bar Code"
             android:textAllCaps="false"
             android:textColor="@color/white"

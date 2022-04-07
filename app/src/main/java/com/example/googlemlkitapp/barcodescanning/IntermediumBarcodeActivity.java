@@ -67,6 +67,7 @@ public class IntermediumBarcodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intermedium_barcode);
+        getSupportActionBar().setTitle("Scan Or or Bar Code");
         firebaseAuth = FirebaseAuth.getInstance();
         currentUser = firebaseAuth.getCurrentUser();
         firestore = FirebaseFirestore.getInstance();

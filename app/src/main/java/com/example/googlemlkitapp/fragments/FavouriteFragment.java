@@ -80,6 +80,7 @@ public class FavouriteFragment extends Fragment {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
+
                         case R.id.id_favouriteitem:
                             removefromFavourite(position);
                             break;

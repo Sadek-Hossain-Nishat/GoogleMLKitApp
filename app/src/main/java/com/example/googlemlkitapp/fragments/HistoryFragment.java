@@ -68,6 +68,7 @@ public class HistoryFragment extends Fragment {
     private String documentpathRef="";
 
 
+
     private HistoryitemPopUpListener historyitemPopUpListener = new HistoryitemPopUpListener() {
         @Override
         public void actionpopupinHistoryitem(int position, View view) {
@@ -109,6 +110,9 @@ public class HistoryFragment extends Fragment {
                                         @Override
                                         public boolean onMenuItemClick(MenuItem item) {
                                             switch (item.getItemId()) {
+                                                case R.id.id_openhistoryitem:
+                                                    openItem(position);
+                                                    break;
                                                 case R.id.id_share:
                                                     sharebarResult(position);
                                                     break;
@@ -149,6 +153,9 @@ public class HistoryFragment extends Fragment {
                                         @Override
                                         public boolean onMenuItemClick(MenuItem item) {
                                             switch (item.getItemId()) {
+                                                case R.id.id_openhistoryitem:
+                                                    openItem(position);
+                                                    break;
                                                 case R.id.id_share:
                                                     sharebarResult(position);
                                                     break;

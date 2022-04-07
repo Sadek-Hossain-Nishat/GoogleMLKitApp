@@ -15,11 +15,15 @@
         android:textStyle="bold|italic"
         android:textColor="#EA0404"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        tools:visibility="visible"/>
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
         <Button
             android:id="@+id/id_clearallfavourite"
             android:layout_width="wrap_content"
@@ -30,20 +34,25 @@
             android:textColor="@color/white"
             android:textAllCaps="false"
             android:textSize="20sp"
-            android:textStyle="italic"/>
+            android:textStyle="italic"
+            android:visibility="gone"
+            tools:visibility="visible"/>
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/ic_search"
             android:id="@+id/id_opensearchactivity"
-            android:layout_marginStart="30dp"/>
+            android:layout_marginStart="30dp"
+            android:visibility="gone"
+            tools:visibility="visible"/>
 
     </LinearLayout>
 
 
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/id_recyclerviewfavourite"/>
