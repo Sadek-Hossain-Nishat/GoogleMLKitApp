@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -29,9 +30,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.googlemlkitapp.R;
+import com.example.googlemlkitapp.barcodescanning.DetailsBarcodeActivity;
 import com.example.googlemlkitapp.barcodescanning.IntermediumBarcodeActivity;
 import com.example.googlemlkitapp.customadapter.BarcodeHistoryAdapter;
 import com.example.googlemlkitapp.customlistener.HistoryitemPopUpListener;
+import com.example.googlemlkitapp.customlistener.ItemListener;
 import com.example.googlemlkitapp.modeldata.BarcodeData;
 import com.example.googlemlkitapp.searchitem.SearchActivity;
 import com.example.googlemlkitapp.websearch.WebSearchActivity;
@@ -47,6 +50,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.mlkit.vision.barcode.common.Barcode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,6 +70,18 @@ public class HistoryFragment extends Fragment {
     private Button clearhistoryBtn;
     private ImageView searchimage;
     private String documentpathRef="";
+
+
+
+    private ItemListener listener=new ItemListener() {
+        @Override
+        public void clickItem(int position) {
+            Intent idetails=new Intent(requireActivity(), DetailsBarcodeActivity.class);
+            idetails.putExtra("barcode", (Serializable) barcodeDatalist.get(position));
+            startActivity(idetails);
+
+        }
+    };
 
 
 
@@ -313,6 +329,7 @@ public class HistoryFragment extends Fragment {
         barcodeData.put("content", barcodeDatalist.get(position).getContent());
         barcodeData.put("rawvalue", barcodeDatalist.get(position).getRawvalue());
         barcodeData.put("valuetype", barcodeDatalist.get(position).getValuetype());
+        barcodeData.put("date",barcodeDatalist.get(position).getDate());
 
 
         firestore.collection("barcodescanning/" + currentUser.getUid() + "/barcodedata").document(documentPathlist.get(position)).delete()
@@ -376,7 +393,7 @@ public class HistoryFragment extends Fragment {
                                 searchimage.setVisibility(View.VISIBLE);
 
 
-                                barcodeHistoryAdapter = new BarcodeHistoryAdapter(requireActivity(), barcodeDatalist, historyitemPopUpListener);
+                                barcodeHistoryAdapter = new BarcodeHistoryAdapter(requireActivity(), barcodeDatalist, historyitemPopUpListener,listener);
                                 layoutManager = new LinearLayoutManager(requireActivity());
                                 historyitemRecyclerView.setLayoutManager(layoutManager);
                                 historyitemRecyclerView.setAdapter(barcodeHistoryAdapter);
@@ -403,6 +420,7 @@ public class HistoryFragment extends Fragment {
         barcodeData.put("content", barcodeDatalist.get(position).getContent());
         barcodeData.put("rawvalue", barcodeDatalist.get(position).getRawvalue());
         barcodeData.put("valuetype", barcodeDatalist.get(position).getValuetype());
+        barcodeData.put("date",barcodeDatalist.get(position).getDate());
 
 
         firestore.collection("favouritebarcode/" + currentUser.getUid() + "/favouritebarcodedata").add(barcodeData)
@@ -514,6 +532,7 @@ public class HistoryFragment extends Fragment {
                     barcodeData.put("content", barcodeDatalist.get(i).getContent());
                     barcodeData.put("rawvalue", barcodeDatalist.get(i).getRawvalue());
                     barcodeData.put("valuetype", barcodeDatalist.get(i).getValuetype());
+                    barcodeData.put("date",barcodeDatalist.get(i).getDate());
 
 
                     firestore.collection("barcodescanning/" + currentUser.getUid() + "/barcodedata").document(documentPathlist.get(i)).delete()

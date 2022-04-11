@@ -28,8 +28,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.googlemlkitapp.R;
+import com.example.googlemlkitapp.barcodescanning.DetailsBarcodeActivity;
 import com.example.googlemlkitapp.customadapter.BarcodeHistoryAdapter;
 import com.example.googlemlkitapp.customlistener.HistoryitemPopUpListener;
+import com.example.googlemlkitapp.customlistener.ItemListener;
 import com.example.googlemlkitapp.modeldata.BarcodeData;
 import com.example.googlemlkitapp.searchitem.SearchActivity;
 import com.example.googlemlkitapp.websearch.WebSearchActivity;
@@ -43,6 +45,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.mlkit.vision.barcode.common.Barcode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,6 +64,18 @@ public class FavouriteFragment extends Fragment {
     private TextView titlefavouriteFragment, showemptyfavourite;
     private Button clearallfavouriteBtn;
     private ImageView searchimage;
+
+    private ItemListener itemListener=new ItemListener() {
+        @Override
+        public void clickItem(int position) {
+            Intent idetails=new Intent(requireActivity(), DetailsBarcodeActivity.class);
+            idetails.putExtra("barcode", (Serializable) barcodeDatalist.get(position));
+            startActivity(idetails);
+
+
+
+        }
+    };
 
 
     private HistoryitemPopUpListener favouriteitemPopUpListener = new HistoryitemPopUpListener() {
@@ -187,6 +202,7 @@ public class FavouriteFragment extends Fragment {
         barcodeData.put("content", barcodeDatalist.get(position).getContent());
         barcodeData.put("rawvalue", barcodeDatalist.get(position).getRawvalue());
         barcodeData.put("valuetype", barcodeDatalist.get(position).getValuetype());
+        barcodeData.put("date",barcodeDatalist.get(position).getDate());
 
 
         firestore.collection("favouritebarcode/" + currentUser.getUid() + "/favouritebarcodedata").document(documentpathlist.get(position)).delete()
@@ -245,7 +261,7 @@ public class FavouriteFragment extends Fragment {
                                 searchimage.setVisibility(View.VISIBLE);
 
 
-                                barcodeHistoryAdapter = new BarcodeHistoryAdapter(requireActivity(), barcodeDatalist, favouriteitemPopUpListener);
+                                barcodeHistoryAdapter = new BarcodeHistoryAdapter(requireActivity(), barcodeDatalist, favouriteitemPopUpListener,itemListener);
                                 layoutManager = new LinearLayoutManager(requireActivity());
                                 favouritemRecyclerView.setLayoutManager(layoutManager);
                                 favouritemRecyclerView.setAdapter(barcodeHistoryAdapter);
@@ -364,6 +380,7 @@ public class FavouriteFragment extends Fragment {
                     barcodeData.put("content", barcodeDatalist.get(i).getContent());
                     barcodeData.put("rawvalue", barcodeDatalist.get(i).getRawvalue());
                     barcodeData.put("valuetype", barcodeDatalist.get(i).getValuetype());
+                    barcodeData.put("date",barcodeDatalist.get(i).getDate());
 
 
                     firestore.collection("favouritebarcode/" + currentUser.getUid() + "/favouritebarcodedata").document(documentpathlist.get(i)).delete()

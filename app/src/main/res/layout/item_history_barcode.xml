@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="90dp"
         android:background="@drawable/background_history_item"
         android:orientation="horizontal">
 
@@ -30,6 +30,15 @@
 
             <TextView
                 android:id="@+id/id_contentbarcodeitem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+
+                />
+
+
+            <TextView
+                android:id="@+id/id_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17sp"

@@ -23,9 +23,11 @@ import android.webkit.URLUtil;
 import android.widget.Toast;
 
 import com.example.googlemlkitapp.R;
+import com.example.googlemlkitapp.barcodescanning.DetailsBarcodeActivity;
 import com.example.googlemlkitapp.customadapter.BarcodeHistoryAdapter;
 import com.example.googlemlkitapp.customadapter.FilterAdapter;
 import com.example.googlemlkitapp.customlistener.HistoryitemPopUpListener;
+import com.example.googlemlkitapp.customlistener.ItemListener;
 import com.example.googlemlkitapp.modeldata.BarcodeData;
 import com.example.googlemlkitapp.websearch.WebSearchActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,6 +42,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.mlkit.vision.barcode.common.Barcode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,6 +59,17 @@ public class SearchActivity extends AppCompatActivity {
     private String documentpathRef="";
     private ArrayList<String> documentPathlist;
     ArrayList<String> documentpathlist;
+
+    private ItemListener itemListener=new ItemListener() {
+        @Override
+        public void clickItem(int position) {
+            Intent idetails=new Intent(SearchActivity.this, DetailsBarcodeActivity.class);
+            idetails.putExtra("barcode", (Serializable) barcodeDatalist.get(position));
+            startActivity(idetails);
+
+
+        }
+    };
     private HistoryitemPopUpListener historyitemPopUpListener = new HistoryitemPopUpListener() {
         @Override
         public void actionpopupinHistoryitem(int position, View view) {
@@ -237,6 +251,7 @@ public class SearchActivity extends AppCompatActivity {
         barcodeData.put("content", barcodeDatalist.get(position).getContent());
         barcodeData.put("rawvalue", barcodeDatalist.get(position).getRawvalue());
         barcodeData.put("valuetype", barcodeDatalist.get(position).getValuetype());
+        barcodeData.put("date",barcodeDatalist.get(position).getDate());
 
 
         firestore.collection("favouritebarcode/" + currentUser.getUid() + "/favouritebarcodedata").document(documentpathlist.get(position)).delete()
@@ -283,7 +298,7 @@ public class SearchActivity extends AppCompatActivity {
 
 
 
-                                adapter = new FilterAdapter(SearchActivity.this, barcodeDatalist, favouriteitemPopUpListener);
+                                adapter = new FilterAdapter(SearchActivity.this, barcodeDatalist, favouriteitemPopUpListener,itemListener);
                                 layoutManager = new LinearLayoutManager(SearchActivity.this);
                                 recyclerView.setLayoutManager(layoutManager);
                                 recyclerView.setAdapter(adapter);
@@ -319,6 +334,7 @@ public class SearchActivity extends AppCompatActivity {
         barcodeData.put("content", barcodeDatalist.get(position).getContent());
         barcodeData.put("rawvalue", barcodeDatalist.get(position).getRawvalue());
         barcodeData.put("valuetype", barcodeDatalist.get(position).getValuetype());
+        barcodeData.put("date",barcodeDatalist.get(position).getDate());
 
 
         firestore.collection("favouritebarcode/" + currentUser.getUid() + "/favouritebarcodedata").add(barcodeData)
@@ -489,6 +505,7 @@ public class SearchActivity extends AppCompatActivity {
         barcodeData.put("content", barcodeDatalist.get(position).getContent());
         barcodeData.put("rawvalue", barcodeDatalist.get(position).getRawvalue());
         barcodeData.put("valuetype", barcodeDatalist.get(position).getValuetype());
+        barcodeData.put("date",barcodeDatalist.get(position).getDate());
 
 
         firestore.collection("barcodescanning/" + currentUser.getUid() + "/barcodedata").document(documentPathlist.get(position)).delete()
@@ -546,7 +563,7 @@ public class SearchActivity extends AppCompatActivity {
 
 
 
-                                adapter = new FilterAdapter(SearchActivity.this, barcodeDatalist, historyitemPopUpListener);
+                                adapter = new FilterAdapter(SearchActivity.this, barcodeDatalist, historyitemPopUpListener,itemListener);
                                 layoutManager = new LinearLayoutManager(SearchActivity.this);
                                 recyclerView.setLayoutManager(layoutManager);
                                 recyclerView.setAdapter(adapter);
@@ -576,6 +593,7 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        getSupportActionBar().setTitle("Search");
         searchView=findViewById(R.id.id_searchview);
         recyclerView=findViewById(R.id.id_recyclerviewinsearchview);
         barcodeDatalist=new ArrayList<>();

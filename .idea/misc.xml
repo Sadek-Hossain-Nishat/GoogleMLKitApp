@@ -25,6 +25,7 @@
         <entry key="..\:/django application tutorial/Android Application project/AndroidProjects/WebXinfoTech/GoogleMLKitApp/app/src/main/res/drawable/mainactivity_bottom_navitemcolor.xml" value="0.108" />
         <entry key="..\:/django application tutorial/Android Application project/AndroidProjects/WebXinfoTech/GoogleMLKitApp/app/src/main/res/drawable/service_item_background.xml" value="0.1" />
         <entry key="..\:/django application tutorial/Android Application project/AndroidProjects/WebXinfoTech/GoogleMLKitApp/app/src/main/res/layout/activity_barcodescanner_ml.xml" value="0.20416666666666666" />
+        <entry key="..\:/django application tutorial/Android Application project/AndroidProjects/WebXinfoTech/GoogleMLKitApp/app/src/main/res/layout/activity_details_barcode.xml" value="0.15" />
         <entry key="..\:/django application tutorial/Android Application project/AndroidProjects/WebXinfoTech/GoogleMLKitApp/app/src/main/res/layout/activity_face_detection.xml" value="0.1" />
         <entry key="..\:/django application tutorial/Android Application project/AndroidProjects/WebXinfoTech/GoogleMLKitApp/app/src/main/res/layout/activity_intermedium_barcode.xml" value="0.25" />
         <entry key="..\:/django application tutorial/Android Application project/AndroidProjects/WebXinfoTech/GoogleMLKitApp/app/src/main/res/layout/activity_login.xml" value="0.22" />

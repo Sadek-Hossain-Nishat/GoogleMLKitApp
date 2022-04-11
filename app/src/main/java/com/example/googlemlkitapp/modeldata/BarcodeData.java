@@ -1,10 +1,16 @@
 package com.example.googlemlkitapp.modeldata;
 
-public class BarcodeData {
+import java.io.Serializable;
+
+public class BarcodeData implements Serializable {
     private String title;
     private String content;
     private String rawvalue;
     private int valuetype;
+    private String date;
+
+
+
 
 
 
@@ -44,10 +50,23 @@ public class BarcodeData {
         this.valuetype = valuetype;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
 
-
-
-
-
+    @Override
+    public String toString() {
+        return "BarcodeData{" +
+                "title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", rawvalue='" + rawvalue + '\'' +
+                ", valuetype=" + valuetype +
+                ", date='" + date + '\'' +
+                '}';
+    }
 }

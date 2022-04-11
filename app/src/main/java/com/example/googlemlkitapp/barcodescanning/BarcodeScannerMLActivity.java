@@ -110,7 +110,7 @@ public class BarcodeScannerMLActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 101 && grantResults.length > 0) {
 
-            ProcessCameraProvider processCameraProvider = null;
+
             try {
                 processCameraProvider = (ProcessCameraProvider) cameraProviderFuture.get();
             } catch (ExecutionException e) {

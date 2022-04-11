@@ -7,6 +7,7 @@ import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -41,7 +42,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.mlkit.vision.barcode.common.Barcode;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,6 +64,9 @@ public class IntermediumBarcodeActivity extends AppCompatActivity {
     int valuetypeBarcode = 0;
     String documentrefpath = "";
     boolean statefavouritebarcode = false;
+    @SuppressLint("SimpleDateFormat")
+    String currentDate=new SimpleDateFormat("dd MMM yyyy").format(Calendar.getInstance().getTime());
+
 
 
     @Override
@@ -280,6 +286,7 @@ public class IntermediumBarcodeActivity extends AppCompatActivity {
         barcodeData.put("content", contentBarcode);
         barcodeData.put("rawvalue", rawvalueBarcode);
         barcodeData.put("valuetype", valuetypeBarcode);
+        barcodeData.put("date",currentDate);
 
 
         firestore.collection("favouritebarcode/" + currentUser.getUid() + "/favouritebarcodedata").document(documentrefpath).delete()
@@ -313,6 +320,7 @@ public class IntermediumBarcodeActivity extends AppCompatActivity {
             barcodeData.put("content", contentBarcode);
             barcodeData.put("rawvalue", rawvalueBarcode);
             barcodeData.put("valuetype", valuetypeBarcode);
+            barcodeData.put("date",currentDate);
 
 
             firestore.collection("barcodescanning/" + currentUser.getUid() + "/barcodedata").document(documentrefpath).delete()
@@ -351,6 +359,7 @@ public class IntermediumBarcodeActivity extends AppCompatActivity {
             barcodeData.put("content", contentBarcode);
             barcodeData.put("rawvalue", rawvalueBarcode);
             barcodeData.put("valuetype", valuetypeBarcode);
+            barcodeData.put("date",currentDate);
 
 
             firestore.collection("favouritebarcode/" + currentUser.getUid() + "/favouritebarcodedata").add(barcodeData)
@@ -468,6 +477,7 @@ public class IntermediumBarcodeActivity extends AppCompatActivity {
             barcodeData.put("content", contentBarcode);
             barcodeData.put("rawvalue", rawvalueBarcode);
             barcodeData.put("valuetype", valuetypeBarcode);
+            barcodeData.put("date",currentDate);
 
 
             firestore.collection("barcodescanning/" + currentUser.getUid() + "/barcodedata").add(barcodeData)

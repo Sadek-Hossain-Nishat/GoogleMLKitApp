@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoogleMLKitApp">
         <activity
+            android:name=".barcodescanning.DetailsBarcodeActivity"
+            android:exported="false" />
+        <activity
             android:name=".searchitem.SearchActivity"
             android:exported="false" />
         <activity
