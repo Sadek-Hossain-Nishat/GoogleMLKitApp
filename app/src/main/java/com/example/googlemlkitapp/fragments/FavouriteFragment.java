@@ -320,12 +320,6 @@ public class FavouriteFragment extends Fragment {
 
 
 
-
-
-
-
-
-
     public FavouriteFragment() {
         // Required empty public constructor
     }
@@ -435,5 +429,12 @@ public class FavouriteFragment extends Fragment {
 
 
         return view;
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updatingUi();
     }
 }

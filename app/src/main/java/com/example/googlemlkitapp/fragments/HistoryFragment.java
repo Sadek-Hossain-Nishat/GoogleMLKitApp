@@ -480,6 +480,7 @@ public class HistoryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(TAG, "onCreate: ");
 
     }
 
@@ -495,6 +496,7 @@ public class HistoryFragment extends Fragment {
         titleHistoryFragment = view.findViewById(R.id.id_ttlehistoryfragment);
         clearhistoryBtn = view.findViewById(R.id.id_clearhistorybarcodedata);
         searchimage = view.findViewById(R.id.id_opensearchactivity);
+        Log.i(TAG, "onCreateView: ");
 
 
 
@@ -601,4 +603,10 @@ public class HistoryFragment extends Fragment {
     }
 
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.i(TAG, "onStart: ");
+        updatingUi();
+    }
 }
